@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        body {
+            background-color: rgb(210, 30, 186);
+            font-family: Arial, sans-serif;
+            font-size: large;
+            font-style: unset;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .task-item.complete {
+            text-decoration: line-through;
+            color: grey;
+        }
+        .task-form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <form class="task-form" action="/add" method="post">
+        <input type="text" name="name" placeholder="New task" required>
+        <button type="submit">Add Task</button>
+    </form>
+    <ul class="task-list">
+        {{range .}}
+        <li class="task-item {{if .Complete}}complete{{end}}">
+            <span>{{.Name}}</span>
+            <form action="/remove" method="post" style="display:inline;">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <button type="submit">Remove</button>
+            </form>
+            <form action="/complete" method="post" style="display:inline;">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <button type="submit" {{if .Complete}}disabled{{end}}>Complete</button>
+            </form>
+        </li>
+        {{end}}
+    </ul>
+</body>
+</html>
